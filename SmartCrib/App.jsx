@@ -6,11 +6,13 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
+import logo from "./logo.png";
 
-// Custom components can be created for different sections of the app
 const Header = () => (
   <View style={styles.header}>
+    <Image source={logo} style={styles.logo} />
     <Text style={styles.headerText}>SmartCrib</Text>
   </View>
 );
@@ -50,17 +52,24 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#e0f7fa", // Light blue background color
   },
   header: {
-    backgroundColor: "#6200ee",
+    backgroundColor: "#0288d1",
     padding: 20,
     alignItems: "center",
+    flexDirection: "row",
     marginTop: 20, // Added marginTop to shift the header down
   },
+  logo: {
+    width: 200,
+    height: 200,
+    marginRight: 10,
+  },
   headerText: {
+    padding: 70,
     color: "#fff",
-    fontSize: 20,
+    fontSize: 50,
     fontWeight: "bold",
   },
   contentContainer: {
@@ -73,7 +82,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   deviceButton: {
-    backgroundColor: "#6200ee",
+    backgroundColor: "#0288d1",
     padding: 15,
     borderRadius: 10,
     marginVertical: 10,

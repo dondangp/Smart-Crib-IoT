@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { registerRootComponent } from "expo";
+import { logo } from "../assets/logo.png";
 registerRootComponent(App);
 export default function App() {
   return (
