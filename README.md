@@ -23,4 +23,4 @@ A React Native mobile application for controlling IoT devices in a smart home en
 - **Python 3.12.0**
 
 ## App Demos
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xLqYLixEVfE" frameborder="0" allowfullscreen></iframe>
+[Watch the demo on YouTube](https://www.youtube.com/watch?v=xLqYLixEVfE)
