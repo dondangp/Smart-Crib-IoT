@@ -1,96 +1,110 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
+  TextInput,
 } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import styles from "./AppStyles";
 import logo from "./logo.png";
 
-const Header = () => (
+// Header Component
+const Header = ({ title }) => (
   <View style={styles.header}>
     <Image source={logo} style={styles.logo} />
-    <Text style={styles.headerText}>SmartCrib</Text>
+    <Text style={styles.headerText}>{title}</Text>
   </View>
 );
 
-const DeviceButton = ({ name, onPress }) => (
-  <TouchableOpacity style={styles.deviceButton} onPress={onPress}>
-    <Text style={styles.deviceButtonText}>{name}</Text>
-  </TouchableOpacity>
-);
+// Lights Screen
+const LightsScreen = () => {
+  const [brightness, setBrightness] = useState("");
 
-export default function App() {
+  const adjustBrightness = () => {
+    Alert.alert("Adjusting brightness to: ", brightness);
+  };
+
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Header />
+      <Header title="Smart Lights" />
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.title}>Connected Devices</Text>
-        <DeviceButton
-          name="Living Room Light"
-          onPress={() => alert("Living Room Light")}
+        <TextInput
+          style={styles.input}
+          placeholder="Enter brightness (0-255)"
+          keyboardType="numeric"
+          value={brightness}
+          onChangeText={setBrightness}
         />
-        <DeviceButton name="Garage Door" onPress={() => alert("Garage Door")} />
-        <DeviceButton name="Thermostat" onPress={() => alert("Thermostat")} />
-        <DeviceButton
-          name="Security Camera"
-          onPress={() => alert("Security Camera")}
-        />
-        <DeviceButton
-          name="Window Blinds"
-          onPress={() => alert("Window Blinds")}
-        />
+        <TouchableOpacity
+          style={styles.deviceButton}
+          onPress={adjustBrightness}
+        >
+          <Text style={styles.deviceButtonText}>Set Brightness</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e0f7fa", // Light blue background color
-  },
-  header: {
-    backgroundColor: "#0288d1",
-    padding: 20,
-    alignItems: "center",
-    flexDirection: "row",
-    marginTop: 20, // Added marginTop to shift the header down
-  },
-  logo: {
-    width: 200,
-    height: 200,
-    marginRight: 10,
-  },
-  headerText: {
-    padding: 70,
-    color: "#fff",
-    fontSize: 50,
-    fontWeight: "bold",
-  },
-  contentContainer: {
-    padding: 20,
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginVertical: 20,
-  },
-  deviceButton: {
-    backgroundColor: "#0288d1",
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 10,
-    width: "80%",
-    alignItems: "center",
-  },
-  deviceButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-});
+// Doorlock Screen
+const DoorlockScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Header title="Smart Doorlock" />
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>Doorlock Controls Here</Text>
+      </ScrollView>
+    </View>
+  );
+};
+
+// Fan Screen
+const FanScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Header title="Smart Fan" />
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>Fan Controls Here</Text>
+      </ScrollView>
+    </View>
+  );
+};
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <StatusBar style="auto" />
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName;
+            if (route.name === "Lights") {
+              iconName = "bulb-outline";
+            } else if (route.name === "Doorlock") {
+              iconName = "lock-closed-outline";
+            } else if (route.name === "Fan") {
+              iconName = "aperture-outline";
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: "#0288d1",
+          tabBarInactiveTintColor: "gray",
+          tabBarStyle: { backgroundColor: "#f5f5f5" },
+        })}
+      >
+        <Tab.Screen name="Lights" component={LightsScreen} />
+        <Tab.Screen name="Doorlock" component={DoorlockScreen} />
+        <Tab.Screen name="Fan" component={FanScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
