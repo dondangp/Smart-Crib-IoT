@@ -23,4 +23,4 @@ A React Native mobile application for controlling IoT devices in a smart home en
 - **Python 3.12.0**
 
 ## App Demos
-[Watch the demo on YouTube](https://www.youtube.com/watch?v=xLqYLixEVfE)
+[Smart Crib IoT App Demo 1](https://www.youtube.com/watch?v=xLqYLixEVfE)
