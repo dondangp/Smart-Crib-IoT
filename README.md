@@ -21,3 +21,6 @@ A React Native mobile application for controlling IoT devices in a smart home en
 - **npm or yarn**: Installed along with Node.js to manage packages.
 - **Expo CLI**: To run the application on a mobile device or emulator. You can install Expo CLI globally using:
 - **Python 3.12.0**
+
+## App Demos
+https://www.youtube.com/watch?v=xLqYLixEVfE&ab_channel=DonDang
