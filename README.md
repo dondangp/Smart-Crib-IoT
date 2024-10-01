@@ -1,6 +1,6 @@
 # SmartCrib IoT Mobile App
 
-A React Native mobile application for controlling IoT devices in a smart home environment. This application allows users to manage their smart lights, door lock, and fan via a user-friendly interface. The app communicates with an HTTP server to send control commands and retrieve device statuses.
+A React Native mobile application for controlling IoT devices in a smart home environment. This application allows users to manage their smart lights, door lock, and fan via a user-friendly interface. The app communicates with an Azure VM Server to send http control commands and retrieve device statuses.
 
 ## Features
 
