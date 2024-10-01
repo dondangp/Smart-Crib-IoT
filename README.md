@@ -1,0 +1,23 @@
+# SmartCrib IoT Mobile App
+
+A React Native mobile application for controlling IoT devices in a smart home environment. This application allows users to manage their smart lights, door lock, and fan via a user-friendly interface. The app communicates with an HTTP server to send control commands and retrieve device statuses.
+
+## Features
+
+- **Smart Lights**: Set the brightness of connected smart lights (0-255).
+- **Smart Door Lock**: Lock or unlock the smart door with a simple toggle (0 for unlock, 1 for lock).
+- **Smart Fan**: Adjust the fan speed (0-100) to suit your comfort.
+
+## Built With
+
+- **React Native**: A popular framework for building mobile applications using React.
+- **Axios**: For making HTTP requests to the server.
+- **@react-navigation**: For implementing tab-based navigation.
+- **@expo/vector-icons**: For using Ionicons in the application.
+
+## Prerequisites
+
+- **Node.js**: Make sure you have Node.js installed. [Download Node.js](https://nodejs.org/)
+- **npm or yarn**: Installed along with Node.js to manage packages.
+- **Expo CLI**: To run the application on a mobile device or emulator. You can install Expo CLI globally using:
+- **Python 3.12.0**
