@@ -5,7 +5,7 @@ A React Native mobile application for controlling IoT devices in a smart home en
 ## Features
 
 - **Smart Lights**: Set the brightness of connected smart lights (0-100).
-- **Smart Door Lock**: Lock or unlock the smart door with a simple toggle (0 for unlock, 1 for lock).
+- **Smart Door Lock**: Lock or unlock the smart door with a simple toggle (0 for unlock, 1 for lock). Keypad integration to unlock/lock the door lock.
 - **Smart Fan**: Adjust the fan speed (Off, Low, Medium, or High) to suit your comfort.
 
 ## Built With
