@@ -70,6 +70,27 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: "#000",
   },
+  // Keypad styles
+  keypadContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  keypadButton: {
+    width: 60,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5,
+    backgroundColor: "#0288d1",
+    borderRadius: 30,
+  },
+  keypadButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });
 
 export default styles;
