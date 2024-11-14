@@ -4,16 +4,15 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Image,
   Alert,
   TextInput,
 } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import styles from "./AppStyles";
-import logo from "./logo.png";
 import { StatusBar } from "react-native";
 
 // Header Component
@@ -22,6 +21,90 @@ const Header = ({ title }) => (
     <Text style={styles.headerText}>{title}</Text>
   </View>
 );
+
+// Keypad Component
+const Keypad = ({ onPress }) => {
+  const keys = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "Clear",
+    "Enter",
+  ];
+
+  return (
+    <View style={styles.keypadContainer}>
+      {keys.map((key) => (
+        <TouchableOpacity
+          key={key}
+          style={styles.keypadButton}
+          onPress={() => onPress(key)}
+        >
+          <Text style={styles.keypadButtonText}>{key}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+};
+
+// Doorlock Screen with Keypad for Passcode Input
+const DoorlockScreen = () => {
+  const [passcode, setPasscode] = useState("");
+
+  const handleKeyPress = (key) => {
+    if (key === "Clear") {
+      setPasscode("");
+    } else if (key === "Enter") {
+      submitPasscode();
+    } else {
+      setPasscode((prev) => prev + key);
+    }
+  };
+
+  const submitPasscode = async () => {
+    try {
+      const response = await axios.post("http://13.88.157.6:65432", {
+        id: 0,
+        device: 3,
+        passcode: passcode,
+      });
+
+      console.log(`Server response: ${JSON.stringify(response.data)}`);
+      Alert.alert(
+        "Success",
+        `Passcode ${response.data.isValid ? "accepted" : "rejected"}`
+      );
+      setPasscode(""); // Clear passcode after submission
+    } catch (error) {
+      console.error("Error sending passcode:", error);
+      Alert.alert("Error", `Failed to send passcode: ${error.message}`);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Header title="Smart Doorlock" />
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>Enter Passcode</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter passcode"
+          value={passcode}
+          secureTextEntry
+          editable={false} // Prevent manual input, use keypad
+        />
+        <Keypad onPress={handleKeyPress} />
+      </ScrollView>
+    </View>
+  );
+};
 
 // Lights Screen
 const LightsScreen = () => {
@@ -64,53 +147,6 @@ const LightsScreen = () => {
           onPress={adjustBrightness}
         >
           <Text style={styles.deviceButtonText}>Set Brightness</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
-  );
-};
-
-// Doorlock Screen
-const DoorlockScreen = () => {
-  const [lockStatus, setLockStatus] = useState("");
-
-  const toggleLock = async () => {
-    if (lockStatus !== "0" && lockStatus !== "1") {
-      Alert.alert("Error", "Please enter 0 to unlock or 1 to lock.");
-      return;
-    }
-
-    try {
-      const response = await axios.post("http://13.88.157.6:65432", {
-        id: 0,
-        device: 3,
-        doorlock: parseInt(lockStatus, 10),
-      });
-
-      console.log(`Server response: ${JSON.stringify(response.data)}`);
-      Alert.alert(
-        "Success",
-        `Doorlock status set to: ${lockStatus === "1" ? "Locked" : "Unlocked"}`
-      );
-    } catch (error) {
-      console.error("Error sending doorlock status:", error);
-      Alert.alert("Error", `Failed to send doorlock status: ${error.message}`);
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <Header title="Smart Doorlock" />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter 0 to unlock, 1 to lock"
-          keyboardType="numeric"
-          value={lockStatus}
-          onChangeText={setLockStatus}
-        />
-        <TouchableOpacity style={styles.deviceButton} onPress={toggleLock}>
-          <Text style={styles.deviceButtonText}>Set Doorlock Status</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
