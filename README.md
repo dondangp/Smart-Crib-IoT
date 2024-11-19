@@ -9,6 +9,7 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 - **Smart Lights**: Set the brightness of connected smart lights (0-100).
 - **Smart Door Lock**: Lock or unlock the smart door with a simple toggle (Lock/Unlock). Keypad integration to unlock/lock the door lock.
 - **Smart Fan**: Adjust the fan speed (Off, Low, Medium, or High) to suit your comfort.
+- **Settings**: Settings to change the Smart Door Lock password.
 
 ## Built With
 
