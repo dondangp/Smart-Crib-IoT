@@ -1,4 +1,3 @@
-// Don Dang
 import React, { useState } from "react";
 import {
   Text,
@@ -55,37 +54,35 @@ const Keypad = ({ onPress }) => {
   );
 };
 
-// Doorlock Screen with Keypad for Passcode Input
+// Doorlock Screen with Lock and Unlock Buttons
 const DoorlockScreen = () => {
   const [passcode, setPasscode] = useState("");
 
-  const handleKeyPress = (key) => {
-    if (key === "Clear") {
-      setPasscode("");
-    } else if (key === "Enter") {
-      submitPasscode();
-    } else {
-      setPasscode((prev) => prev + key);
+  const handleLockAction = async (action) => {
+    if (!passcode) {
+      Alert.alert("Error", "Passcode cannot be empty.");
+      return;
     }
-  };
 
-  const submitPasscode = async () => {
     try {
       const response = await axios.post("http://13.88.157.6:65432", {
         id: 0,
         device: 3,
-        passcode: passcode,
+        passcode,
+        action, // "lock" or "unlock"
       });
 
       console.log(`Server response: ${JSON.stringify(response.data)}`);
       Alert.alert(
         "Success",
-        `Passcode ${response.data.isValid ? "accepted" : "rejected"}`
+        action === "lock"
+          ? "Door has been locked successfully!"
+          : "Door has been unlocked successfully!"
       );
-      setPasscode(""); // Clear passcode after submission
+      setPasscode(""); // Clear the input field after the action
     } catch (error) {
-      console.error("Error sending passcode:", error);
-      Alert.alert("Error", `Failed to send passcode: ${error.message}`);
+      console.error(`Error performing ${action}:`, error);
+      Alert.alert("Error", `Failed to ${action} the door: ${error.message}`);
     }
   };
 
@@ -98,10 +95,26 @@ const DoorlockScreen = () => {
           style={styles.input}
           placeholder="Enter passcode"
           value={passcode}
+          onChangeText={setPasscode}
           secureTextEntry
-          editable={false} // Prevent manual input, use keypad
         />
-        <Keypad onPress={handleKeyPress} />
+        <View style={styles.buttonGroup}>
+          {/* Lock Button */}
+          <TouchableOpacity
+            style={[styles.deviceButton, { backgroundColor: "#4caf50" }]}
+            onPress={() => handleLockAction("lock")}
+          >
+            <Text style={styles.deviceButtonText}>Lock</Text>
+          </TouchableOpacity>
+
+          {/* Unlock Button */}
+          <TouchableOpacity
+            style={[styles.deviceButton, { backgroundColor: "#f44336" }]}
+            onPress={() => handleLockAction("unlock")}
+          >
+            <Text style={styles.deviceButtonText}>Unlock</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -156,23 +169,19 @@ const LightsScreen = () => {
 
 // Thermostat Screen
 const Smartfan = () => {
-  const [fanSpeed, setFanSpeed] = useState("");
+  const [fanSpeed, setFanSpeed] = useState(null);
 
-  const adjustFanSpeed = async () => {
-    if (!fanSpeed || isNaN(fanSpeed)) {
-      Alert.alert("Error", "Please enter a valid fan speed (0-100).");
-      return;
-    }
-
+  const adjustFanSpeed = async (speed, label) => {
     try {
       const response = await axios.post("http://13.88.157.6:65432", {
         id: 0,
         device: 2,
-        fanSpeed: parseInt(fanSpeed, 10),
+        fanSpeed: speed,
       });
 
       console.log(`Server response: ${JSON.stringify(response.data)}`);
-      Alert.alert("Success", `Fan speed set to: ${fanSpeed}`);
+      Alert.alert("Success", `Fan speed set to: ${label}`);
+      setFanSpeed(speed); // Update the selected speed
     } catch (error) {
       console.error("Error sending fan speed:", error);
       Alert.alert("Error", `Failed to send fan speed: ${error.message}`);
@@ -183,22 +192,103 @@ const Smartfan = () => {
     <View style={styles.container}>
       <Header title="Smart Fan" />
       <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>Set Fan Speed</Text>
+        <View style={styles.buttonGroup}>
+          {/* Off Button */}
+          <TouchableOpacity
+            style={[
+              styles.deviceButton,
+              fanSpeed === 0 && { backgroundColor: "#f44336" },
+            ]}
+            onPress={() => adjustFanSpeed(0, "Off")}
+          >
+            <Text style={styles.deviceButtonText}>Off</Text>
+          </TouchableOpacity>
+
+          {/* Low Button */}
+          <TouchableOpacity
+            style={[
+              styles.deviceButton,
+              fanSpeed === 1 && { backgroundColor: "#ff9800" },
+            ]}
+            onPress={() => adjustFanSpeed(1, "Low")}
+          >
+            <Text style={styles.deviceButtonText}>Low</Text>
+          </TouchableOpacity>
+
+          {/* Medium Button */}
+          <TouchableOpacity
+            style={[
+              styles.deviceButton,
+              fanSpeed === 2 && { backgroundColor: "#ffc107" },
+            ]}
+            onPress={() => adjustFanSpeed(2, "Medium")}
+          >
+            <Text style={styles.deviceButtonText}>Medium</Text>
+          </TouchableOpacity>
+
+          {/* High Button */}
+          <TouchableOpacity
+            style={[
+              styles.deviceButton,
+              fanSpeed === 3 && { backgroundColor: "#4caf50" },
+            ]}
+            onPress={() => adjustFanSpeed(3, "High")}
+          >
+            <Text style={styles.deviceButtonText}>High</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
+// Settings Screen
+const SettingsScreen = () => {
+  const [newPassword, setNewPassword] = useState("");
+
+  const resetPassword = async () => {
+    if (!newPassword) {
+      Alert.alert("Error", "Password cannot be empty.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://13.88.157.6:65432", {
+        id: 0,
+        device: 3,
+        newPassword,
+      });
+
+      console.log(`Server response: ${JSON.stringify(response.data)}`);
+      Alert.alert("Success", "Door lock password reset successfully!");
+      setNewPassword(""); // Clear the input field
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      Alert.alert("Error", `Failed to reset password: ${error.message}`);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Header title="Settings" />
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>Reset Door Lock Password</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter fan speed (0-100)"
-          keyboardType="numeric"
-          value={fanSpeed}
-          onChangeText={setFanSpeed}
+          placeholder="Enter new password"
+          value={newPassword}
+          onChangeText={setNewPassword}
+          secureTextEntry
         />
-        <TouchableOpacity style={styles.deviceButton} onPress={adjustFanSpeed}>
-          <Text style={styles.deviceButtonText}>Set Fan Speed</Text>
+        <TouchableOpacity style={styles.deviceButton} onPress={resetPassword}>
+          <Text style={styles.deviceButtonText}>Reset Password</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
   );
 };
 
-// Bottom Tab Navigation
+// Bottom Tab Navigation with Settings Screen
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -214,7 +304,9 @@ export default function App() {
             } else if (route.name === "Doorlock") {
               iconName = "lock-closed-outline";
             } else if (route.name === "Smart Fan") {
-              iconName = "thermometer-outline"; // Updated icon name for Smart Fan
+              iconName = "thermometer-outline";
+            } else if (route.name === "Settings") {
+              iconName = "settings-outline"; // Icon for Settings
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -226,6 +318,7 @@ export default function App() {
         <Tab.Screen name="Lights" component={LightsScreen} />
         <Tab.Screen name="Doorlock" component={DoorlockScreen} />
         <Tab.Screen name="Smart Fan" component={Smartfan} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
