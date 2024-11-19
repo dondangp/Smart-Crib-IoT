@@ -28,4 +28,5 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 [Smart Crib IoT App Demo 1](https://www.youtube.com/watch?v=xLqYLixEVfE)
 
 [Smart Fan Demo](https://www.youtube.com/shorts/cb8d_wNGdIk)
-Final Demo:
+
+[Final Demo]()
