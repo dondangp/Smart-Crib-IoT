@@ -1,6 +1,8 @@
-# SmartCrib IoT Mobile App
+# SmartCrib IoT Abstract
 
-A React Native mobile application for controlling IoT devices in a smart home environment. This application allows users to manage their smart lights, door lock, and fan via a user-friendly interface. The app communicates with an Azure VM Server to send http control commands and retrieve device statuses.
+The Smart Crib project integrates hardware and software components to provide users with a seamless and efficient smart home management solution. The system features smart lights, a smart door lock, and a smart fan, all of which can be controlled remotely through a user-friendly mobile application. The application serves as the central interface, allowing users to adjust light brightness, lock and unlock doors via a keypad or app controls, and set fan speeds. Communication between the app and devices is facilitated through an Azure Virtual Machine (VM) server, which processes HTTP control commands and maintains device statuses in real time.
+
+The hardware layer includes an ESP32 microcontroller for each device, enabling autonomous operations and network communication. The smart door lock features a keypad for local passcode input, providing an additional layer of security. The smart fan allows speed adjustments for customized comfort, while the smart lights support dynamic brightness levels for personalized lighting. By leveraging cloud-based infrastructure and efficient task management on microcontrollers, the Smart Crib project ensures reliable, responsive, and secure smart home control, blending convenience with cutting-edge IoT technology.
 
 ## Features
 
