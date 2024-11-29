@@ -8,13 +8,11 @@
 //Define your Wi-Fi credentials
 const char* ssid = "SpectrumSetup-3928";
 const char* password = "motorsecurity673";
-//const char* ssid = "Velocity Temp";
-//const char* password = "";
 //const char* ssid = "LuisiPhone";
 //const char* password = "delrioluis";
 
 // Define the server URL
-#define SERVER_URL "http://52.160.88.33:65432"
+#define SERVER_URL "http://13.88.157.6:65432"
 
 // Define pin and number of NeoPixels
 #define PIN 15
@@ -74,20 +72,6 @@ void loop() {
       total = obj["brightness"].as<int>();
       Serial.print("Current light level from server: ");
       Serial.println(total);
-
-      // Control NeoPixels based on the total sum
-      // if (total % 2 == 0) {
-      //   // Even number -> Turn on light
-      //   for (int i = 0; i < strip.numPixels(); i++) {
-      //     //maxbrightness = 255
-      //     strip.setPixelColor(i, strip.Color(100, 100, 100)); // White color
-      //   }
-      // } else {
-      //   // Odd number -> Turn off light
-      //   for (int i = 0; i < strip.numPixels(); i++) {
-      //     strip.setPixelColor(i, strip.Color(0, 0, 0)); // Turn off
-      //   }
-      // }
 
       //brightness must be between 0 and 255
       if (total > 255){
