@@ -30,4 +30,3 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 
 [Smart Fan Demo](https://www.youtube.com/shorts/cb8d_wNGdIk)
 
-[Final Demo]()
