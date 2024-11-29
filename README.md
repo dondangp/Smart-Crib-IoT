@@ -31,6 +31,6 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 [Smart Fan Demo](https://www.youtube.com/shorts/cb8d_wNGdIk)
 
 ## Contributors
--  **Don Dang**: Created the Smart Home React Native App
--  **Luis Del Rio**: Created server, Smart Light and Smart Doorlock devices. 
+-  **Don Dang**: Created the Smart Home React Native App and Final Poster
+-  **Luis Del Rio**: Created Azure server, Smart Light and Smart Doorlock devices. 
 -  **Zait Martinez**: Created the hardware and software development for Smart Light
