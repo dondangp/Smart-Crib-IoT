@@ -54,35 +54,32 @@ const Keypad = ({ onPress }) => {
   );
 };
 
-// Doorlock Screen with Lock and Unlock Buttons
 const DoorlockScreen = () => {
-  const [passcode, setPasscode] = useState("");
-
-  const handleLockAction = async (action) => {
-    if (!passcode) {
-      Alert.alert("Error", "Passcode cannot be empty.");
-      return;
-    }
-
+  // Function to handle lock/unlock action
+  const handleLockAction = async (doorlock) => {
+    // `doorlock`: 1 for "lock", 0 for "unlock"
     try {
       const response = await axios.post("http://13.88.157.6:65432", {
-        id: 0,
-        device: 3,
-        passcode,
-        action, // "lock" or "unlock"
+        id: 0, // Acting as a controller
+        device: 3, // Device is a door lock
+        doorlock, // 1 for lock, 0 for unlock
       });
 
       console.log(`Server response: ${JSON.stringify(response.data)}`);
       Alert.alert(
         "Success",
-        action === "lock"
+        doorlock === 1
           ? "Door has been locked successfully!"
           : "Door has been unlocked successfully!"
       );
-      setPasscode(""); // Clear the input field after the action
     } catch (error) {
-      console.error(`Error performing ${action}:`, error);
-      Alert.alert("Error", `Failed to ${action} the door: ${error.message}`);
+      console.error(`Error performing lock/unlock:`, error);
+      Alert.alert(
+        "Error",
+        `Failed to ${doorlock === 1 ? "lock" : "unlock"} the door: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     }
   };
 
@@ -90,19 +87,11 @@ const DoorlockScreen = () => {
     <View style={styles.container}>
       <Header title="Smart Doorlock" />
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.title}>Enter Passcode</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter passcode"
-          value={passcode}
-          onChangeText={setPasscode}
-          secureTextEntry
-        />
         <View style={styles.buttonGroup}>
           {/* Lock Button */}
           <TouchableOpacity
             style={[styles.deviceButton, { backgroundColor: "#4caf50" }]}
-            onPress={() => handleLockAction("lock")}
+            onPress={() => handleLockAction(1)} // Send `doorlock: 1` for lock
           >
             <Text style={styles.deviceButtonText}>Lock</Text>
           </TouchableOpacity>
@@ -110,7 +99,7 @@ const DoorlockScreen = () => {
           {/* Unlock Button */}
           <TouchableOpacity
             style={[styles.deviceButton, { backgroundColor: "#f44336" }]}
-            onPress={() => handleLockAction("unlock")}
+            onPress={() => handleLockAction(0)} // Send `doorlock: 0` for unlock
           >
             <Text style={styles.deviceButtonText}>Unlock</Text>
           </TouchableOpacity>
