@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -120,9 +120,9 @@ const DoorlockScreen = () => {
   );
 };
 
-// Lights Screen
 const LightsScreen = () => {
   const [brightness, setBrightness] = useState("");
+  const [motionDetected, setMotionDetected] = useState(false); // Motion detection state
 
   const adjustBrightness = async () => {
     if (!brightness || isNaN(brightness)) {
@@ -145,13 +145,41 @@ const LightsScreen = () => {
     }
   };
 
+  // Simulate fetching motion status from the server
+  const fetchMotionStatus = async () => {
+    try {
+      const response = await axios.get("http://13.88.157.6:65432/motion"); // Replace with your API endpoint
+      setMotionDetected(response.data.motionDetected); // Example response
+    } catch (error) {
+      console.error("Error fetching motion status:", error);
+      Alert.alert("Error", `Failed to fetch motion status: ${error.message}`);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(fetchMotionStatus, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval); // Clean up on unmount
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header title="Smart Lights" />
       <ScrollView contentContainerStyle={styles.contentContainer}>
+        {/* Motion Detection Status */}
+        <Text style={styles.title}>Motion Status:</Text>
+        <Text
+          style={[
+            styles.motionText,
+            { color: motionDetected ? "#4caf50" : "#f44336" }, // Green for detected, red for not detected
+          ]}
+        >
+          {motionDetected ? "Motion Detected" : "Motion Not Detected"}
+        </Text>
+
+        {/* Brightness Control */}
         <TextInput
           style={styles.input}
-          placeholder="Enter brightness (0-255)"
+          placeholder="Enter brightness (0-100)"
           keyboardType="numeric"
           value={brightness}
           onChangeText={setBrightness}
