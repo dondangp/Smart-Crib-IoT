@@ -1,32 +1,19 @@
-// Use this example with the Adafruit Keypad products.
-// You'll need to know the Product ID for your keypad.
-// Here's a summary:
-//   * PID3844 4x4 Matrix Keypad
-//   * PID3845 3x4 Matrix Keypad
-//   * PID1824 3x4 Phone-style Matrix Keypad
-//   * PID1332 Membrane 1x4 Keypad
-//   * PID419  Membrane 3x4 Matrix Keypad
-//new
 #include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
-const char* ssid = "SpectrumSetup-3928";
-const char* password = "motorsecurity673";
+#include "Adafruit_Keypad.h"
+
+// WiFi credentials
+const char* ssid = "LuisiPhone";
+const char* password = "delrioluis";
 #define SERVER_URL "http://13.88.157.6:65432"
 int id = 1;
 int device = 3;
 int doorlock = 0;
-//new
 
-
-#include "Adafruit_Keypad.h"
-#include <stdlib.h>
-#include <string.h>
-// define your specific keypad here via PID
+// Keypad pin definitions
 #define KEYPAD_PID1824
-// define your pins here
-// can ignore ones that don't apply
 #define R1    6
 #define R2    9
 #define R3    10
@@ -34,191 +21,171 @@ int doorlock = 0;
 #define C1    3
 #define C2    4
 #define C3    5
-// leave this import after the above configuration
+
 #include "keypad_config.h"
 
-//initialize an instance of class NewKeypad
-Adafruit_Keypad customKeypad = Adafruit_Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+// Keypad configuration
+char Luis_password[5] = "1234";
+char input_password[5] = "____";
+int current_index = 0;
+Adafruit_Keypad customKeypad = Adafruit_Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
+// Relay pins for door lock
 #define relay_1 13
 #define relay_2 12
 
-
-char Luis_password[5] = "1234";
-char input_password[5] = "____"; //represent a blank password
-int current_index = 0;
-
+// Task handles
+TaskHandle_t TaskKeypadHandle = NULL;
+TaskHandle_t TaskServerHandle = NULL;
 
 void setup() {
-  //new
- 
+  Serial.begin(9600);
 
-  // Connect to Wi-Fi
-  //WiFi.begin(ssid, password);
-  Serial.print("Ethan ");
+  // Initialize relays
+  pinMode(relay_1, OUTPUT);
+  pinMode(relay_2, OUTPUT);
+
+  // Start Wi-Fi
+  
   WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-  Serial.println("Connected to WiFi");
-  //new
+  Serial.println("WiFi connected");
+  
 
-  pinMode(relay_1, OUTPUT);
-  pinMode(relay_2, OUTPUT);
-  Serial.begin(9600);
+  // Initialize keypad
   customKeypad.begin();
 
+  // Create two tasks: one for keypad input and one for server updates
+  xTaskCreatePinnedToCore(
+    TaskKeypad,    // Task function
+    "Keypad Task", // Name of the task
+    2048,          // Stack size (bytes)
+    NULL,          // Parameter to pass to task (none in this case)
+    1,             // Priority of the task
+    &TaskKeypadHandle, // Task handle
+    0              // Core to run the task on (0 or 1)
+  );
+
+
+  xTaskCreatePinnedToCore(
+    TaskServer,    // Task function
+    "Server Task", // Name of the task
+    4096,          // Stack size (bytes)
+    NULL,          // Parameter to pass to task (none in this case)
+    1,             // Priority of the task
+    &TaskServerHandle, // Task handle
+    1              // Core to run the task on (0 or 1)
+  );
 }
-/*
+
+
 void loop() {
-  // put your main code here, to run repeatedly:
-  customKeypad.tick();
+  // Nothing needed here; the tasks are handling everything.
+}
 
-  while(customKeypad.available()){
-    keypadEvent e = customKeypad.read();
-    //Serial.print((char)e.bit.KEY);
-
-    if(e.bit.EVENT == KEY_JUST_PRESSED){  //when button is pressed
-      //Serial.println((char)e.bit.KEY);    //print the button pressed
-      if((char)e.bit.KEY != '*' && (char)e.bit.KEY != '#'){ //if input is a number
-        if(current_index >= 4){
-          Serial.println("Password Too Long");
-          current_index = 0;
-          input_password[0] = '_';
-          input_password[1] = '_';
-          input_password[2] = '_';
-          input_password[3] = '_';
-          Serial.println("Password Cleared");
-          Serial.println(input_password);
-        }
-        else{ // otherwise if theres enough space append to input_password
-          input_password[current_index] = ((char)e.bit.KEY);  //add number to input_password
-          current_index += 1; //traverse index
-          Serial.println(input_password);
-        }
+// Task for handling keypad input
+void TaskKeypad(void *pvParameters) {
+  while (true) {
+    customKeypad.tick();  // Update keypad buffer
+    if (customKeypad.available()) {
+      keypadEvent e = customKeypad.read();
+      if (e.bit.EVENT == KEY_JUST_PRESSED) {
+        handleKeypadInput((char)e.bit.KEY);  // Process keypress
       }
-      else if((char)e.bit.KEY == '*'){ // if '*' is entered clear password
-        input_password[0] = '_';
-        input_password[1] = '_';
-        input_password[2] = '_';
-        input_password[3] = '_';
-        current_index = 0;
-        Serial.println("Password Cleared");
-        Serial.println(input_password);
-      }
-      else if((char)e.bit.KEY == '#'){ // enter/check input_password
-        Serial.print("Password Entered: ");
-        Serial.println(input_password);
-        if (input_password[0] == Luis_password[0]){
-          if (input_password[1] == Luis_password[1]){
-            if (input_password[2] == Luis_password[2]){
-              if (input_password[3] == Luis_password[3]){
-                Serial.println("Correct Password");
-                current_index = 10; //use this as a flag 
-
-                lock_door();
-                unlock_door();
-              }
-            }
-          }
-        }
-        if (current_index != 10){
-          Serial.println("Incorrect Password");
-        }
-
-
-        //Serial.println(input_password);
-        //clear password
-        input_password[0] = '_';
-        input_password[1] = '_';
-        input_password[2] = '_';
-        input_password[3] = '_';
-        Serial.println("Password Cleared");
-        Serial.println(input_password);
-        current_index = 0;
-      }
-
     }
-    else if(e.bit.EVENT == KEY_JUST_RELEASED){  //when button releases print current input password state
-      //Serial.print("released : ");
-      //Serial.println(input_password);
-    }
+    vTaskDelay(10 / portTICK_PERIOD_MS);  // Delay to avoid hogging CPU
   }
-
-  delay(10);
 }
-*/
 
-void loop() {
-  // Prepare JSON data to send to the server
-  //add device data here 
-  //String data = "{\"id\": " + String(id) + "}";
-  String data = "{\"id\": " + String(id) + ", \"device\": " + String(device) + "}";
+// Task for handling server updates
+void TaskServer(void *pvParameters) {
+  while (true) {
+    // Prepare and send server request
+    String data = "{\"id\": " + String(id) + ", \"device\": " + String(device) + "}";
+    HTTPClient http;
+    http.begin(SERVER_URL);
+    http.addHeader("Content-Type", "application/json");
 
-  HTTPClient http;
-  http.begin(SERVER_URL); // Specify the URL
-  http.addHeader("Content-Type", "application/json"); // Specify content-type
+    int httpResponseCode = http.POST(data);
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      DynamicJsonDocument doc(1024);
+      deserializeJson(doc, response);
+      JsonObject obj = doc.as<JsonObject>();
 
-  int httpResponseCode = http.POST(data); // Make the POST request
-
-  if (httpResponseCode > 0) {
-    String response = http.getString(); // Get the response payload
-
-    // Parse JSON response
-    DynamicJsonDocument doc(1024);
-    deserializeJson(doc, response);
-    JsonObject obj = doc.as<JsonObject>();
-
-    if (obj.containsKey("doorlock") && obj["doorlock"].is<int>()) {
-      doorlock = obj["doorlock"].as<int>();
-      Serial.print("Current doorlock from server: ");
-      Serial.println(doorlock);
-
-      if (doorlock == 1){
-        //lock door
-        lock_door();
+      if (obj.containsKey("doorlock") && obj["doorlock"].is<int>()) {
+        doorlock = obj["doorlock"].as<int>();
+        if (doorlock == 1) lock_door();
+        else if (doorlock == 0) unlock_door();
       }
-      else if (doorlock == 0){
-        unlock_door();
-      }
+    }
+    http.end();
+    vTaskDelay(5000 / portTICK_PERIOD_MS);  // Wait 5 seconds before sending another request
+  }
+}
 
-      // Control NeoPixels based on the total sum
-      // if (total % 2 == 0) {
-      //   // Even number -> Turn on light
-      //   for (int i = 0; i < strip.numPixels(); i++) {
-      //     //maxbrightness = 255
-      //     strip.setPixelColor(i, strip.Color(100, 100, 100)); // White color
-      //   }
-      // } else {
-      //   // Odd number -> Turn off light
-      //   for (int i = 0; i < strip.numPixels(); i++) {
-      //     strip.setPixelColor(i, strip.Color(0, 0, 0)); // Turn off
-      //   }
-      // }
-
-      //brightness must be between 0 and 255
-      
+// Handle keypad input logic
+void handleKeypadInput(char key) {
+  if (key != '*' && key != '#') {  // Password key
+    if (current_index >= 4) {
+      resetPassword();
+      Serial.println("Password Too Long");
     } else {
-      Serial.println("Doorlock not found or not a number");
+      input_password[current_index] = key;
+      current_index++;
+      Serial.println(input_password);
     }
-  } else {
-    Serial.printf("Error code: %d\n", httpResponseCode);
+  } else if (key == '*') {
+    resetPassword();
+    Serial.println("Password Cleared");
+  } else if (key == '#') {
+    checkPassword();
+    
   }
-
-  http.end(); // Free resources
-  //delay(1000); // Wait for 10 seconds before sending the next request
 }
 
-void lock_door(){
+// Reset password entry
+void resetPassword() {
+  // memset(input_password, '_', sizeof(input_password));
+  // current_index = 0;
+  input_password[0] = '_';
+  input_password[1] = '_';
+  input_password[2] = '_';
+  input_password[3] = '_';
+  current_index = 0;
+
+  
+
+}
+
+// Check if the entered password matches
+void checkPassword() {
+  if (strcmp(input_password, Luis_password) == 0) {
+    Serial.println("Correct Password");
+    unlock_door();
+    delay(10000);  // Allow time to open door
+
+    lock_door();
+  } else {
+    Serial.println("Incorrect Password");
+  }
+  resetPassword();
+  Serial.println("Password Cleared");
+
+}
+
+// Lock and unlock door functions
+void lock_door() {
   digitalWrite(relay_1, HIGH);
-  delay(10000);
+  delay(5000);
   digitalWrite(relay_1, LOW);
 }
 
-void unlock_door(){
+void unlock_door() {
   digitalWrite(relay_2, HIGH);
-  delay(10000);
+  delay(5000);
   digitalWrite(relay_2, LOW);
 }
