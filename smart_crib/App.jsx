@@ -240,11 +240,14 @@ const SettingsScreen = () => {
       Alert.alert("Error", "Password cannot be empty.");
       return;
     }
-
+    if (newPassword >= 4) {
+      Alert.alert("Password is too long.");
+      return;
+    }
     try {
       const response = await axios.post("http://13.88.157.6:65432", {
         id: 0,
-        device: 3,
+        device: 31,
         newPassword,
       });
 
