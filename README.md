@@ -32,5 +32,5 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 
 ## Contributors
 -  **Don Dang**: Created the Smart Home React Native App
--  **Luis Del Rio**: Created all the hardware and software development for Smart Light and Smart Door Lock
+-  **Luis Del Rio**: Created server, Smart Light and Smart Doorlock devices. 
 -  **Zait Martinez**: Created the hardware and software development for Smart Light
