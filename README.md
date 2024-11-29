@@ -26,7 +26,7 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 - **Python 3.12.0**
 
 ## App Demos
-[Smart Crib IoT App Demo 1](https://www.youtube.com/watch?v=xLqYLixEVfE)
+[Smart Light & Lock Demo](https://www.youtube.com/watch?v=xLqYLixEVfE)
 
 [Smart Fan Demo](https://www.youtube.com/shorts/cb8d_wNGdIk)
 
