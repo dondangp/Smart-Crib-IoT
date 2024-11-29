@@ -1,4 +1,4 @@
-# SmartCrib IoT Abstract
+# Smart Home IoT Abstract
 
 The Smart Crib project integrates hardware and software components to provide users with a seamless and efficient smart home management solution. The system features smart lights, a smart door lock, and a smart fan, all of which can be controlled remotely through a user-friendly mobile application. The application serves as the central interface, allowing users to adjust light brightness, lock and unlock doors via a keypad or app controls, and set fan speeds. Communication between the app and devices is facilitated through an Azure Virtual Machine (VM) server, which processes HTTP control commands and maintains device statuses in real time.
 
