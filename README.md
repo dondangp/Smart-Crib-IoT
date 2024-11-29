@@ -23,7 +23,7 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 - **Node.js**: Make sure you have Node.js installed. [Download Node.js](https://nodejs.org/)
 - **npm or yarn**: Installed along with Node.js to manage packages.
 - **Expo CLI**: To run the application on a mobile device or emulator. You can install Expo CLI globally using:
-- **Python 3.12.0**
+- **Python 3.12.0+**
 
 ## App Demos
 [Smart Light & Lock Demo](https://www.youtube.com/watch?v=xLqYLixEVfE)
