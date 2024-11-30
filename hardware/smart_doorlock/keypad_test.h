@@ -11,6 +11,7 @@ const char* password = "delrioluis";
 int id = 1;
 int device = 3;
 int doorlock = 0;
+int newPassword = 0;
 
 // Keypad pin definitions
 #define KEYPAD_PID1824
@@ -121,9 +122,16 @@ void TaskServer(void *pvParameters) {
         if (doorlock == 1) lock_door();
         else if (doorlock == 0) unlock_door();
       }
+      if (obj.containsKey("newPassword") && obj["newPassword"].is<int>()) {
+        newPassword = obj["newPassword"].as<int>();
+        //turn int "newPassword" into a string
+        sprintf(Luis_password, "%d", newPassword);
+        Serial.println(Luis_password);
+      }
+
     }
     http.end();
-    vTaskDelay(5000 / portTICK_PERIOD_MS);  // Wait 5 seconds before sending another request
+    vTaskDelay(500 / portTICK_PERIOD_MS);  // Wait before sending another request
   }
 }
 
@@ -166,7 +174,7 @@ void checkPassword() {
   if (strcmp(input_password, Luis_password) == 0) {
     Serial.println("Correct Password");
     unlock_door();
-    delay(10000);  // Allow time to open door
+    //delay(20000);  // Allow time to open door
 
     lock_door();
   } else {
