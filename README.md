@@ -39,4 +39,4 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 -  **Zait Martinez**: Created the hardware and software development for Smart Fan.
 
 
-As of December 04, 2024 - This project will be wrapping up to a finish.
+*As of December 04, 2024 - This project will be wrapping up to a finish for Demo Day.*
