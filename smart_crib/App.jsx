@@ -231,32 +231,50 @@ const Smartfan = () => {
     </View>
   );
 };
-// Settings Screen
+// Settings Screen Component
 const SettingsScreen = () => {
   const [newPassword, setNewPassword] = useState("");
 
   const resetPassword = async () => {
-    if (!newPassword) {
-      Alert.alert("Error", "Password cannot be empty.");
+    // Validate input
+    if (!newPassword || isNaN(newPassword)) {
+      Alert.alert("Error", "Password must be a numeric value.");
       return;
     }
-    if (newPassword >= 4) {
-      Alert.alert("Password is too long.");
+
+    const passwordInt = parseInt(newPassword, 10); // Convert string to integer
+
+    if (passwordInt < 0 || passwordInt > 9999) {
+      Alert.alert(
+        "Error",
+        "Password must be a numeric value between 0 and 9999."
+      );
       return;
     }
+
     try {
+      // Send request to server
       const response = await axios.post("http://13.88.157.6:65432", {
-        id: 0,
-        device: 31,
-        newPassword,
+        id: 0, // Controller ID
+        device: 31, // Device ID for the door lock
+        newPassword: passwordInt, // Ensure password is an integer
       });
 
-      console.log(`Server response: ${JSON.stringify(response.data)}`);
-      Alert.alert("Success", "Door lock password reset successfully!");
-      setNewPassword(""); // Clear the input field
+      console.log("Server response:", response.data);
+      Alert.alert("Success", "Password reset successfully!");
+      setNewPassword(""); // Clear input field
     } catch (error) {
+      // Handle errors
       console.error("Error resetting password:", error);
-      Alert.alert("Error", `Failed to reset password: ${error.message}`);
+
+      // Extract error message
+      const errorMessage =
+        error.response?.data?.message ||
+        (error.response?.status === 400
+          ? "Bad Request: Please check the input."
+          : "Network Error: Could not reach the server.");
+
+      Alert.alert("Error", errorMessage);
     }
   };
 
@@ -267,10 +285,11 @@ const SettingsScreen = () => {
         <Text style={styles.title}>Reset Door Lock Password</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter new password"
+          placeholder="Enter new password (numeric, max 4 digits)"
           value={newPassword}
-          onChangeText={setNewPassword}
-          secureTextEntry
+          onChangeText={(text) => setNewPassword(text)} // Update state
+          keyboardType="numeric" // Ensure numeric input
+          secureTextEntry // Password input masking
         />
         <TouchableOpacity style={styles.deviceButton} onPress={resetPassword}>
           <Text style={styles.deviceButtonText}>Reset Password</Text>
@@ -279,7 +298,6 @@ const SettingsScreen = () => {
     </View>
   );
 };
-
 // Bottom Tab Navigation with Settings Screen
 const Tab = createBottomTabNavigator();
 
