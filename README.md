@@ -21,6 +21,7 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 ## Prerequisites
 
 - **Node.js**: Make sure you have Node.js installed. [Download Node.js](https://nodejs.org/)
+- **XCode**: Make sure you have XCode installed to use React Native. [Download XCode](https://developer.apple.com/xcode/)
 - **npm or yarn**: Installed along with Node.js to manage packages.
 - **Expo CLI**: To run the application on a mobile device or emulator.
 - ```npm install```
