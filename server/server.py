@@ -1,69 +1,118 @@
-import requests
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
+import json
 
-def start_client():
+PORT = 65432
 
-    server_url = 'http://13.88.157.6:65432'  # Replace with your server's public IP address and port
+# smartlight data
+brightness = 0
 
-    while True:
-       
-        id = int(input("id ( 0 for controler 1 for device): "))            
-        device = int(input("devices 1 = light, 2 = fan, 3 = lock: "))
-        data = None
-        
-        if id == 0: # if we want to act as a controler
-            if device == 1: # grab brightness from input
-                brightness = int(input("brightness (0 - 255): "))
-                data = {"id": id,   # let them know we are a controler
-                        "device": device,   #let em know what device we want to control
-                        "brightness": brightness}   # send brightness update
-            elif device == 2:   # grab fanspeed from input
-                fanSpeed = int(input("fanspeed (0-100): "))
-                data = {"id": id,
-                        "device": device,
-                        "fanSpeed": fanSpeed} # send fanspeed update
-            elif device == 3:   # grab doorlock from input
-                doorlock = int(input("O for unlock 1 for lock: "))
-                data = {"id": id,
-                        "device": device,
-                        "doorlock": doorlock}   # send updated doorlock status
-                
-        if id == 1: # if we want to act as a device
-            if device == 1: 
-                # device wont update anything
-                data = {"id": id,   # let them know we are a device
-                        "device": device}   #let em know what device we are
-            elif device == 2:   # grab fanspeed from input
-                # dont update fanspeed
-                temp = int(input("Current temp (0-100): "))
-                humidity = int(input("Current humidity (0 - 100): "))
-                data = {"id": id,
-                        "device": device,
-                        "temp": temp,         # send temp update
-                        "humidity": humidity} # send humidity update
-            elif device == 3:   
-                # device wont update anything
-                data = {"id": id,
-                        "device": device}
-        
-        try:    #try with input values
-               
-            
-            print("outgoing json data")
+# thermal data
+fanSpeed = 0
+temp = 0
+humidity = 0
+
+# smartlock data
+doorlock = 0  # 0 means door is unlocked, 1 means door is locked
+newPassword = 1234
+
+lock = threading.Lock()
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+
+    # I believe this is where the request is sent 
+    def _send_response(self, message, status_code=200):
+        self.send_response(status_code)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        self.wfile.write(json.dumps(message).encode())
+
+    # I believe this is where the request is sent
+    def do_POST(self):
+        global brightness, fanSpeed, temp, humidity, doorlock, newPassword  # Make sure to declare global variables
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length).decode()
+
+        try:
+            # first, get the data as from json 
+            data = json.loads(post_data)
+            print("incoming json data")
             print(data)
-            
-            response = requests.post(server_url, json=data)
 
-            if response.status_code == 200:
-                print("incoming json data")
-                print(response.text)
+            # identify who made the request, device or controller
+            id = int(data['id'])
+
+            if id == 0:  #  CONTROLER REQUEST
+                # find what device controller is aiming to control
+                device = int(data['device'])
+                if device == 1:  # if target device is the LightDevice adjust brightness
+                    with lock:
+                        brightness = int(data["brightness"]) #user updates brightness
+                        response = {"brightness": brightness}# respond with updated brightness
+                elif device == 2:  # if target device is the thermal device
+                    with lock:
+                        fanSpeed = int(data["fanSpeed"]) #user update   
+                        # temp = int(data["temp"])         #device update
+                        # humidity = int(data["humidity"])    #device update
+                        response = {"fanSpeed": fanSpeed,   #respond with updated fan speed
+                                    "temp": temp,           #respond with current temp
+                                    "humidity": humidity}   #respond with current humidity
+                elif device == 3:  # if target device is the smartlock device
+                    with lock:
+                        doorlock = int(data["doorlock"])    # user update
+                        response = {"doorlock": doorlock}   # respond with updated lock state
+                elif device == 31: # if target device is smart lock device 
+                    with lock:
+                        newPassword = int(data["newPassword"])
+                        response = {}
+
+                else:
+                    self._send_response({"error": "Invalid target"}, 400)
+                    return
+
+            elif id == 1:  # DEVICE REQUEST
+                
+                device = int(data['device'])    #what device made request
+
+                if device == 1:
+                    with lock:
+                        # device wont update any data
+                        response = {"brightness": brightness}   # respond with updated data
+                elif device == 2:
+                    with lock:
+                        #device wont update fanspeed
+                        temp = int(data['temp'])    # device must update temp
+                        humidity = int(data['humidity'])    # device must update humidity
+                        response = {"fanSpeed": fanSpeed, 
+                                    "temp": temp,
+                                    "humidity": humidity}   # respond with updated data
+                elif device == 3:
+                    with lock:
+                        # device wont update data
+                        response = {"doorlock": doorlock,
+                                    "newPassword": newPassword}   #respond with updated data
+                else:
+                    self._send_response({"error": "Invalid device"}, 400)
+                    return
             else:
-                print(f"Server error: {response.json().get('error', 'Unknown error')}")
+                self._send_response({"error": "Invalid id"}, 400)
+                return
 
-        except ValueError:
-            print("Please enter a valid number.")
-        except requests.exceptions.RequestException as e:
-            print(f"Failed to connect to the server: {e}")
+            print("outgoing json data")
+            print(response)
+            self._send_response(response)
+        except (ValueError, KeyError):
+            self._send_response({"error": "Invalid data"}, 400)
 
+
+def start_server():
+    server = HTTPServer(('0.0.0.0', PORT), SimpleHTTPRequestHandler)
+    print(f"HTTP Server is listening on port {PORT}...")
+    server.serve_forever()
+
+# starts the program overall
 if __name__ == "__main__":
+    start_server()
 
-    start_client()
+
+
