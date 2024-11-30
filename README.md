@@ -36,3 +36,6 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 -  **Don Dang (Project Lead)**: Created the Smart Home React Native App and Final Poster. Scheduled meetings and assigned tasks for each individual and monitored completed tasks and attendance.
 -  **Luis Del Rio**: Created Azure server, Smart Light and Smart Doorlock devices. 
 -  **Zait Martinez**: Created the hardware and software development for Smart Fan.
+
+
+As of December 04, 2024 - This project will be wrapping up to a finish.
