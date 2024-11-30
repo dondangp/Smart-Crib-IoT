@@ -22,7 +22,7 @@ The hardware layer includes an ESP32 microcontroller for each device, enabling a
 
 - **Node.js**: Make sure you have Node.js installed. [Download Node.js](https://nodejs.org/)
 - **npm or yarn**: Installed along with Node.js to manage packages.
-- **Expo CLI**: To run the application on a mobile device or emulator. You can install Expo CLI globally using:
+- **Expo CLI**: To run the application on a mobile device or emulator.
 - ```npm install```
 - ``` npm install axios```
 - **Python 3.12.0+**
