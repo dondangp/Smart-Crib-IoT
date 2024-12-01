@@ -194,17 +194,6 @@ const Smartfan = () => {
             <Text style={styles.deviceButtonText}>Off</Text>
           </TouchableOpacity>
 
-          {/* Low Button */}
-          <TouchableOpacity
-            style={[
-              styles.deviceButton,
-              fanSpeed === 1 && { backgroundColor: "#ff9800" },
-            ]}
-            onPress={() => adjustFanSpeed(1, "Low")}
-          >
-            <Text style={styles.deviceButtonText}>Low</Text>
-          </TouchableOpacity>
-
           {/* Medium Button */}
           <TouchableOpacity
             style={[
@@ -213,7 +202,7 @@ const Smartfan = () => {
             ]}
             onPress={() => adjustFanSpeed(2, "Medium")}
           >
-            <Text style={styles.deviceButtonText}>Medium</Text>
+            <Text style={styles.deviceButtonText}>Cool</Text>
           </TouchableOpacity>
 
           {/* High Button */}
@@ -224,7 +213,7 @@ const Smartfan = () => {
             ]}
             onPress={() => adjustFanSpeed(3, "High")}
           >
-            <Text style={styles.deviceButtonText}>High</Text>
+            <Text style={styles.deviceButtonText}>Hot</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
