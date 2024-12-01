@@ -17,6 +17,8 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 - **Axios**: For making HTTP requests to the server.
 - **@react-navigation**: For implementing tab-based navigation.
 - **@expo/vector-icons**: For using Ionicons in the application.
+- **ESP-32**: Smart light & lock hardware/software development
+- **Raspberry Pi Pico**: Smart Fan & hardware/software development
 
 ## Prerequisites
 
