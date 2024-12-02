@@ -200,7 +200,7 @@ const Smartfan = () => {
               styles.deviceButton,
               fanSpeed === 2 && { backgroundColor: "#ffc107" },
             ]}
-            onPress={() => adjustFanSpeed(2, "Medium")}
+            onPress={() => adjustFanSpeed(2, "Cool")}
           >
             <Text style={styles.deviceButtonText}>Cool</Text>
           </TouchableOpacity>
@@ -211,9 +211,9 @@ const Smartfan = () => {
               styles.deviceButton,
               fanSpeed === 3 && { backgroundColor: "#4caf50" },
             ]}
-            onPress={() => adjustFanSpeed(3, "High")}
+            onPress={() => adjustFanSpeed(3, "Heat")}
           >
-            <Text style={styles.deviceButtonText}>Hot</Text>
+            <Text style={styles.deviceButtonText}>Heat</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
