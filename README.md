@@ -28,6 +28,8 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 - **Expo CLI**: To run the application on a mobile device or emulator.
 - ```npm install```
 - ``` npm install axios```
+- ```npx expo install expo@latest```
+- ```npx expo install --fix```
 - **Python 3.12.0+**
 
 ## App Demos
