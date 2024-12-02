@@ -30,6 +30,7 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 - ``` npm install axios```
 - ```npx expo install expo@latest```
 - ```npx expo install --fix```
+- Note: UTA WiFi Blocks React Native Expo *use alternative WiFi instead*
 - **Python 3.12.0+**
 
 ## App Demos
