@@ -27,18 +27,42 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 - **ESP-32**: Smart light & lock hardware/software development
 - **Raspberry Pi Pico**: Smart Fan & hardware/software development
 
-## Prerequisites
+# Prerequisites
 
-- **Node.js**: Make sure you have Node.js installed. [Download Node.js](https://nodejs.org/)
-- **XCode**: Make sure you have XCode installed to use React Native. [Download XCode](https://developer.apple.com/xcode/)
-- **npm or yarn**: Installed along with Node.js to manage packages.
-- **Expo CLI**: To run the application on a mobile device or emulator.
-- ```npm install```
-- ``` npm install axios```
-- ```npx expo install expo@latest```
-- ```npx expo install --fix```
-- Note: UTA WiFi Blocks React Native Expo *use alternative WiFi instead*
-- **Python 3.12.0+**
+Before you begin, ensure the following tools and dependencies are installed:
+
+### 1. **Node.js**
+   - Install Node.js to manage JavaScript runtime and packages.  
+   [Download Node.js](https://nodejs.org/)
+
+### 2. **Xcode**
+   - Required for running React Native on iOS devices or emulators.  
+   [Download Xcode](https://developer.apple.com/xcode/)
+
+### 3. **npm or yarn**
+   - Package managers installed along with Node.js for managing dependencies.
+
+### 4. **Expo CLI**
+   - To run the React Native application on mobile devices or emulators. Install via:
+     ```bash
+     npm install -g expo-cli
+     ```
+
+### 5. **Dependencies**
+   - Install necessary packages:
+     ```bash
+     npm install
+     npm install axios
+     npx expo install expo@latest
+     npx expo install --fix
+     ```
+
+### 6. **Network Requirement**
+   - **Note**: UTA WiFi blocks React Native Expo. Use an alternative WiFi connection.
+
+### 7. **Python 3.12.0+**
+   - Ensure you have Python 3.12.0 or higher installed for additional scripts or integrations.
+
 
 ## App Demos
 [Smart Light & Lock Demo](https://www.youtube.com/watch?v=xLqYLixEVfE)
