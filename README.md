@@ -64,7 +64,7 @@ Before you begin, ensure the following tools and dependencies are installed:
    - Ensure you have Python 3.12.0 or higher installed for additional scripts or integrations.
 
 
-## App Demos
+## App Video Demos
 [Smart Light & Lock Demo](https://www.youtube.com/watch?v=xLqYLixEVfE)
 
 [Smart Fan Demo](https://www.youtube.com/shorts/cb8d_wNGdIk)
