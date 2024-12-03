@@ -48,5 +48,5 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 *As of December 04, 2024 - This project will be wrapping up to a finish for Demo Day.*
 
 ## Demo Images
-![image](https://github.com/user-attachments/assets/38e58b25-7ef9-4a2c-a602-1b57cadaa950)
+![Smart Fan Printed Circuit Board](https://github.com/user-attachments/assets/38e58b25-7ef9-4a2c-a602-1b57cadaa950)
 
