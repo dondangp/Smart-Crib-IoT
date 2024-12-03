@@ -9,7 +9,7 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 -  **Luis Del Rio**: Created Azure server, Smart Light and Smart Doorlock devices. 
 -  **Zait Martinez**: Created the hardware, software development, and Printed Circuit Board (PCB) for Smart Fan
 
-*As of December 03, 2024 - This project will be wrapping up to a finish for Demo Day.*
+*As of December 03, 2024 - This project will be wrapping up to a finish for Demo Day with no more commits to be made.*
 
 ## Features
 
