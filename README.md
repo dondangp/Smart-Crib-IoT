@@ -60,7 +60,7 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 ![doorlock_keypad](https://github.com/user-attachments/assets/baf48498-03ff-4a5e-af4b-974112406d6c)
 ### Smart Light (Off)
 ![smart_light_off](https://github.com/user-attachments/assets/37215d81-a919-42f2-9cb9-87bf2047a19b)
-###Smart Light (On)
+### Smart Light (On)
 ![smart_light_on](https://github.com/user-attachments/assets/d279b928-8816-485b-9071-0d43e1bdcaa5)
 
 
