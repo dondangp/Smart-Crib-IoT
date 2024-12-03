@@ -51,4 +51,5 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 ![Smart Fan Printed Circuit Board](https://github.com/user-attachments/assets/38e58b25-7ef9-4a2c-a602-1b57cadaa950)
 ![smartfan](https://github.com/user-attachments/assets/228eeb5b-4c4a-4481-beed-48c52abebc90)
 ![doorlock_front](https://github.com/user-attachments/assets/7e719720-0bbe-4ef5-94f9-4bee3648675a)
+![doorlock_keypad](https://github.com/user-attachments/assets/baf48498-03ff-4a5e-af4b-974112406d6c)
 
