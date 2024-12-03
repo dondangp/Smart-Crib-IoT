@@ -4,6 +4,13 @@ The Smart Crib project integrates hardware and software components to provide us
 
 The hardware layer includes an ESP32 microcontroller for the smart door lock & light and a Raspberry Pi Pico for the smart fan, enabling autonomous operations and network communication. The smart door lock features a keypad for local passcode input, providing an additional layer of security. The smart fan allows speed adjustments for customized comfort, while the smart lights support dynamic brightness levels for personalized lighting. By leveraging cloud-based infrastructure and efficient task management on microcontrollers, the Smart Crib project ensures reliable, responsive, and secure smart home control, blending convenience with cutting-edge IoT technology.
 
+# Contributors
+-  **Don Dang (Project Lead)**: Created the Smart Home React Native App and Final Poster. Scheduled meetings and assigned tasks for each individual and monitored who completed tasks and attended meetings.
+-  **Luis Del Rio**: Created Azure server, Smart Light and Smart Doorlock devices. 
+-  **Zait Martinez**: Created the hardware, software development, and Printed Circuit Board (PCB) for Smart Fan
+
+*As of December 04, 2024 - This project will be wrapping up to a finish for Demo Day.*
+
 ## Features
 
 - **Smart Lights**: Set the brightness of connected smart lights (0-100). Motion detection when someone walks nearby it will turn on the lights.
@@ -40,12 +47,7 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 
 [Final Demo]()
 
-## Contributors
--  **Don Dang (Project Lead)**: Created the Smart Home React Native App and Final Poster. Scheduled meetings and assigned tasks for each individual and monitored who completed tasks and attended meetings.
--  **Luis Del Rio**: Created Azure server, Smart Light and Smart Doorlock devices. 
--  **Zait Martinez**: Created the hardware, software development, and Printed Circuit Board (PCB) for Smart Fan
 
-*As of December 04, 2024 - This project will be wrapping up to a finish for Demo Day.*
 
 ## Demo Images
 ![Smart Fan Printed Circuit Board](https://github.com/user-attachments/assets/38e58b25-7ef9-4a2c-a602-1b57cadaa950)
