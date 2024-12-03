@@ -63,6 +63,6 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 ### Smart Light (On)
 ![smart_light_on](https://github.com/user-attachments/assets/d279b928-8816-485b-9071-0d43e1bdcaa5)
 ### Smart Fan Final Printed Circuit Board
-
+![smart_fan_pcb](https://github.com/user-attachments/assets/232d3974-a2aa-4322-b177-dcacd758ac8d)
 
 
