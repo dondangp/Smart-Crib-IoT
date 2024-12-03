@@ -45,7 +45,7 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 
 [Smart Fan Demo](https://www.youtube.com/shorts/cb8d_wNGdIk)
 
-[Final Demo]()
+[Final Demo](https://youtu.be/l44uO0imUA0?si=sPAH7cayEWo_ZzFX)
 
 
 
