@@ -38,6 +38,8 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 
 [Smart Fan Demo](https://www.youtube.com/shorts/cb8d_wNGdIk)
 
+[Final Demo]()
+
 ## Contributors
 -  **Don Dang (Project Lead)**: Created the Smart Home React Native App and Final Poster. Scheduled meetings and assigned tasks for each individual and monitored who completed tasks and attended meetings.
 -  **Luis Del Rio**: Created Azure server, Smart Light and Smart Doorlock devices. 
