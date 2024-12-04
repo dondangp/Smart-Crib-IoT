@@ -60,8 +60,8 @@ Before you begin, ensure the following tools and dependencies are installed:
 ### 6. **Network Requirement**
    - **Note**: UTA WiFi blocks React Native Expo. Use an alternative WiFi connection.
 
-### 7. **Python 3.12.0+**
-   - Ensure you have Python 3.12.0 or higher installed for additional scripts or integrations.
+### 7. **C and Python 3.12.0+**
+   - Ensure you have C Version C23 and Python 3.12.0 or higher installed for additional scripts or integrations.
 
 
 ## App Video Demos
