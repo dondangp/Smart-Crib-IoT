@@ -87,6 +87,10 @@ Before you begin, ensure the following tools and dependencies are installed:
 ### Smart Light (On)
 ![smart_light_on](https://github.com/user-attachments/assets/37215d81-a919-42f2-9cb9-87bf2047a19b)
 ### Smart Fan Final Printed Circuit Board
+![smart_fan_pcb](https://github.com/user-attachments/assets/b9802520-ff38-41d6-85c3-eae28501a544)
+
+### Smart Fan Back Layout
 ![smart_fan_pcb](https://github.com/user-attachments/assets/232d3974-a2aa-4322-b177-dcacd758ac8d)
+
 
 
