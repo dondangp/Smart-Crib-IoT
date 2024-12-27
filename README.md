@@ -10,6 +10,7 @@ The hardware layer includes an ESP32 microcontroller for the smart door lock & l
 -  **Zait Martinez**: Created the hardware, software development, and Printed Circuit Board (PCB) for Smart Fan
 - **Ethan Debnath**: Developed Software for IoT App
 - **Pranav Pujar**: Developed Software for IoT App
+
 *As of December 03, 2024 - This project will be wrapping up to a finish for Demo Day with no more commits to be made.*
 
 ## Features
